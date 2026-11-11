@@ -5,8 +5,8 @@ name: fortyguard-heat-watch
 
 services:
   n8n:
-    # Pinned by version and digest; Dependabot proposes updates (.github/dependabot.yml).
-    image: docker.n8n.io/n8nio/n8n:2.47.4@sha256:56a3f0d56c2888b53ca7d89de4aa3de702888f33667c96a1f1d7118548f979e9
+    # Docker Hub copy of the official image, pinned by version and digest; Dependabot proposes updates.
+    image: n8nio/n8n:2.47.4@sha256:56a3f0d56c2888b53ca7d89de4aa3de702888f33667c96a1f1d7118548f979e9
     container_name: heatwatch-n8n
     restart: unless-stopped
     ports:
