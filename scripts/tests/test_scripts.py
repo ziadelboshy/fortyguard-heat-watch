@@ -75,7 +75,8 @@ class CheckWorkflows(unittest.TestCase):
     def test_catches_leaks_an_export_could_introduce(self):
         leaked = setup_n8n.fill_placeholders(copy.deepcopy(MAIN), "123456789")
         leaked["pinData"] = {"Settings": [{"json": {}}]}
-        leaked["nodes"][0]["notes"] = "token 1234567890:AAbbCCddEEffGGhhIIjjKKllMMnnOOppQQ"
+        # Built at runtime so secret scanners don't flag this fake token in the source.
+        leaked["nodes"][0]["notes"] = "token " + "1234567890:" + "AAbb" * 9
         problems = " | ".join(check_workflows.check_workflow(leaked))
         self.assertIn("telegram_chat_id must be", problems)
         self.assertIn("pinData", problems)
