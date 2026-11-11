@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # GitHub Actions are pinned to commit SHAs; Dependabot keeps the SHAs and version comments current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # The n8n image in compose.yaml is pinned by version and digest.
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: monthly

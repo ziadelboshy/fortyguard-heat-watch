@@ -1,0 +1,16 @@
+{
+  "name": "fortyguard-heat-watch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "n8n workflow that turns FortyGuard heat-monitor alerts into Telegram messages, plus a heat-safety planner.",
+  "license": "MIT",
+  "author": "Ziad Osama El-Boshy",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"n8n/test/*.test.js\"",
+    "build": "python3 scripts/build_workflows.py",
+    "check": "python3 scripts/build_workflows.py --check && python3 scripts/check_workflows.py"
+  }
+}

@@ -1,0 +1,15 @@
+# Runtime state and logs (alert IDs, your sites)
+data/
+
+# Secrets never belong in git
+.env
+.env.*
+*.env
+!.env.example
+*.local.json
+
+# Tooling caches
+__pycache__/
+*.pyc
+.ruff_cache/
+node_modules/

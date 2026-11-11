@@ -1,0 +1,42 @@
+# Local n8n for FortyGuard Site Heat Watch.
+#   Start:   bash scripts/start.sh
+#   Remove:  bash scripts/cleanup.sh   (container, n8n data volume and image)
+name: fortyguard-heat-watch
+
+services:
+  n8n:
+    # Pinned by version and digest; Dependabot proposes updates (.github/dependabot.yml).
+    image: docker.n8n.io/n8nio/n8n:2.47.4@sha256:56a3f0d56c2888b53ca7d89de4aa3de702888f33667c96a1f1d7118548f979e9
+    container_name: heatwatch-n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678" # reachable from this machine only
+    environment:
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-UTC} # schedule timezone; alerts use each monitor's own timezone
+      TZ: ${GENERIC_TIMEZONE:-UTC}
+      N8N_SECURE_COOKIE: "false" # plain http, but only on localhost
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_RESTRICT_FILE_ACCESS_TO: /files # file nodes may only touch the alert log and dedupe state
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "true" # secrets live in n8n credentials, never in env
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./data:/files
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5678/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    labels:
+      project: fortyguard-heat-watch
+
+volumes:
+  n8n_data:
+    labels:
+      project: fortyguard-heat-watch

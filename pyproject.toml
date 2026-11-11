@@ -1,0 +1,29 @@
+# Tooling configuration only. The Python code here (scripts/ and planner/) uses the
+# standard library alone, so there is nothing to install to run it.
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["data"]
+
+[tool.ruff.lint]
+select = [
+  "E", "W",   # pycodestyle
+  "F",        # pyflakes
+  "I",        # import order
+  "UP",       # modern syntax for the target version
+  "B",        # likely bugs
+  "SIM",      # simplifications
+  "S",        # security (bandit rules)
+  "RUF",      # ruff-specific
+]
+ignore = [
+  "S603",  # subprocess call: arguments are fixed lists, never a shell string
+  "S607",  # partial executable path: "docker" is resolved from PATH on purpose
+]
+
+[tool.ruff.lint.per-file-ignores]
+"planner/tests/*" = ["S101"]  # assert-style helpers are fine in tests
+
+[tool.ruff.format]
+quote-style = "double"
